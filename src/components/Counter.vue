@@ -5,13 +5,16 @@
       <form @submit.prevent="computeScore">
         <label for="count">Points </label>
         <input type="number" name="count" v-model="scoreToAdd" />
-        <button>Add</button>
+        <input type="submit" value="Add" />
       </form>
     </div>
     <div class="quick-actions">
-      <button @click="updateScore(100)">+100</button>
-      <button @click="updateScore(200)">+200</button>
-      <button @click="updateScore(2000)">+2000</button>
+      <ScoreButton
+        v-for="score in quickScores"
+        :key="score"
+        :score="score"
+        @click="updateScore($event)"
+      />
     </div>
     <div class="current-score">
       <h2>
@@ -25,8 +28,13 @@
 <script>
 import axios from 'axios';
 
+import ScoreButton from './ScoreButton'
+
 export default {
   name: "HelloWorld",
+  components: {
+    ScoreButton,
+  },
   mounted() {
     axios
       .get('https://api.keyvalue.xyz/b05f2221/counter')
@@ -35,12 +43,13 @@ export default {
   data() {
     return {
       counter: null,
-      scoreToAdd: null
+      scoreToAdd: null,
+      quickScores: [100, 200, 2000],
     };
   },
   methods: {
     updateScore(score) {
-      this.counter += score;
+      this.counter = parseInt(this.counter, 10) + parseInt(score, 10);
       return axios
         .post('https://api.keyvalue.xyz/b05f2221/counter', this.counter)
         .then(res => this.score = res.data);
@@ -64,15 +73,17 @@ input[type="number"] {
   padding: 0.2rem 0.5rem;
 }
 
-button {
+input[type="submit"] {
   color: #42b983;
   border: 1px solid #42b983;
   margin: 0.5rem;
   padding: 0.2rem 0.5rem;
   border-radius: 5px;
+  background-color: white;
+  transition: all ease 0.5s;
 }
 
-button:hover {
+input[type="submit"]:hover {
   background-color: #42b983;
   color: white;
 }
