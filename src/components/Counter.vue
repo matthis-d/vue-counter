@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       counter: null,
-      scoreToAdd: 0
+      scoreToAdd: null
     };
   },
   methods: {
@@ -47,7 +47,7 @@ export default {
     },
     computeScore() {
       this.updateScore(parseInt(this.scoreToAdd, 10));
-      this.scoreToAdd = 0;
+      this.scoreToAdd = null;
     }
   }
 };
