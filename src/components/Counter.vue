@@ -2,11 +2,7 @@
   <div class="hello">
     <h1>Score counter</h1>
     <div class="form">
-      <form @submit.prevent="computeScore">
-        <label for="count">Points </label>
-        <input type="number" name="count" v-model="scoreToAdd" />
-        <input type="submit" value="Add" />
-      </form>
+      <ScoreForm @score-added="updateScore($event)" />
     </div>
     <div class="quick-actions">
       <ScoreButton
@@ -28,12 +24,14 @@
 <script>
 import axios from 'axios';
 
-import ScoreButton from './ScoreButton'
+import ScoreButton from './ScoreButton';
+import ScoreForm from './ScoreForm';
 
 export default {
   name: "HelloWorld",
   components: {
     ScoreButton,
+    ScoreForm,
   },
   mounted() {
     axios
@@ -53,10 +51,6 @@ export default {
       return axios
         .post('https://api.keyvalue.xyz/b05f2221/counter', this.counter)
         .then(res => this.score = res.data);
-    },
-    computeScore() {
-      this.updateScore(parseInt(this.scoreToAdd, 10));
-      this.scoreToAdd = null;
     }
   }
 };
@@ -67,24 +61,5 @@ export default {
 h1,
 h2 {
   font-weight: normal;
-}
-
-input[type="number"] {
-  padding: 0.2rem 0.5rem;
-}
-
-input[type="submit"] {
-  color: #42b983;
-  border: 1px solid #42b983;
-  margin: 0.5rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 5px;
-  background-color: white;
-  transition: all ease 0.5s;
-}
-
-input[type="submit"]:hover {
-  background-color: #42b983;
-  color: white;
 }
 </style>
