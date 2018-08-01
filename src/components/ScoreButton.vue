@@ -1,5 +1,5 @@
 <template>
-  <button @click="updateScore">{{prefix}} {{score}}</button>
+  <button :class="{ negative: isNegative }" @click.prevent="updateScore">{{prefix}} {{score}}</button>
 </template>
 
 <script>
@@ -15,7 +15,10 @@ export default {
   },
   computed: {
     prefix() {
-      return this.score >=0 ? '+' : '-';
+      return this.score >=0 ? '+' : '';
+    },
+    isNegative() {
+      return this.score < 0;
     }
   }
 }
@@ -33,9 +36,18 @@ button {
   min-width: 4rem;
 }
 
+.negative {
+  border-color: tomato;
+  color: tomato;
+}
+
 button:hover {
   background-color: #42b983;
   color: white;
+}
+
+.negative:hover {
+  background-color: tomato;
 }
 </style>
 

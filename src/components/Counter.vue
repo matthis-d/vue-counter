@@ -5,12 +5,14 @@
       <ScoreForm @score-added="updateScore($event)" />
     </div>
     <div class="quick-actions">
-      <ScoreButton
-        v-for="score in quickScores"
-        :key="score"
-        :score="score"
-        @click="updateScore($event)"
-      />
+      <div v-for="(scores, index) in quickScores" :key="index">
+        <ScoreButton
+          v-for="score in scores"
+          :key="score"
+          :score="score"
+          @click="updateScore($event)"
+        />
+      </div>
     </div>
     <div class="current-score">
       <h2>
@@ -42,7 +44,7 @@ export default {
     return {
       counter: null,
       scoreToAdd: null,
-      quickScores: [100, 200, 2000],
+      quickScores: [[100, 200, 2000], [-100, -200, -500]],
     };
   },
   methods: {
